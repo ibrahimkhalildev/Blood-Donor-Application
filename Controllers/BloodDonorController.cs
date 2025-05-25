@@ -25,15 +25,15 @@ namespace BloodDonar.MVC.Controllers
         {
             if(ModelState.IsValid)
             {
-                // Check if the donor already exists in the database
-                //var existingDonor = _context.BloodDonors.FirstOrDefault(d => d.ContactNumber == donor.ContactNumber);
-                //if (existingDonor != null)
-                //{
-                //    // Donor already exists, return an error message or handle accordingly
-                //    ModelState.AddModelError("", "Donor with this contact number already exists.");
-                //    return View(donor);
-                //}
-                // Add the new donor to the database
+                //Check if the donor already exists in the database
+                var existingDonor = _context.BloodDonors.FirstOrDefault(d => d.ContactNumber == donor.ContactNumber);
+                if (existingDonor != null)
+                {
+                    // Donor already exists, return an error message or handle accordingly
+                    ModelState.AddModelError("", "Donor with this contact number already exists.");
+                    return View(donor);
+                }
+                //Add the new donor to the database
                 _context.BloodDonors.Add(donor);
                 _context.SaveChanges();
                 return RedirectToAction("Index");

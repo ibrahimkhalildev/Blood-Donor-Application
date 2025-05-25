@@ -1,7 +1,7 @@
-﻿@model BloodDonar.MVC.Models.BloodDonor
+﻿@model BloodDonor
 
 @{
-    ViewData["Title"] = "View";
+    ViewData["Title"] = "Add Donar";
 }
 
 <h1>View</h1>
@@ -38,9 +38,10 @@
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Bloodgroup" class="control-label"></label>
-                <input asp-for="Bloodgroup" class="form-control" />
-                <span asp-validation-for="Bloodgroup" class="text-danger"></span>
+                <label asp-for="BloodGroup" class="control-label"></label>
+                @* <select asp-for="BloodGroup" class="form-control" asp-itmes="Html.GetEnumSelectList<BloodGroup>"></select> *@
+                <input asp-for="BloodGroup" class="form-control" /> 
+                <span asp-validation-for="BloodGroup" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Weight" class="control-label"></label>
@@ -65,7 +66,7 @@
 </div>
 
 <div>
-    <a asp-action="Index">Back to List</a>
+    <a asp-action="Index" asp-controller="BloodDonor">Back to List</a>
 </div>
 
 @section Scripts {

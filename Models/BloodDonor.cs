@@ -16,7 +16,7 @@ namespace BloodDonar.MVC.Models
         public required DateTime DateTime { get; set; }
         [EmailAddress]
         public required string Email { get; set; }
-        public required BloodGroup Bloodgroup { get; set; }
+        public required BloodGroup BloodGroup { get; set; }
         [Range(50,150)]
         public float Weight { get; set; }
         public string? Address { get; set; } 
