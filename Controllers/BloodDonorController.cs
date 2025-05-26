@@ -21,9 +21,22 @@ namespace BloodDonar.MVC.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(BloodDonor donor)
+        public IActionResult Create(BloodDonorCreateViewModel donor)
         {
-            if(ModelState.IsValid)
+            if (!ModelState.IsValid)
+                return View(donor);
+            var donorEntty = new BloodDonor
+            {
+                Name = donor.Name,
+                ContactNumber = donor.ContactNumber,
+                DateOFBirth = donor.DateOFBirth,
+                Email = donor.Email,
+                BloodGroup = donor.BloodGroup,
+                Weight = donor.Weight,
+                Address = donor.Address,
+                LastDonationDate = donor.LastDonationDate
+            };
+            if (ModelState.IsValid)
             {
                 //Check if the donor already exists in the database
                 var existingDonor = _context.BloodDonors.FirstOrDefault(d => d.ContactNumber == donor.ContactNumber);
@@ -34,7 +47,7 @@ namespace BloodDonar.MVC.Controllers
                     return View(donor);
                 }
                 //Add the new donor to the database
-                _context.BloodDonors.Add(donor);
+                _context.BloodDonors.Add(donorEntty);
                 _context.SaveChanges();
                 return RedirectToAction("Index");
             }
