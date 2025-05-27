@@ -1,6 +1,38 @@
-﻿@{
-    ViewData["Title"] = "Donor List";
-} 
+﻿@model List<BloodDonor>
+@{
+        ViewData["Title"] = "Blood Donor List";
 
-<h1>This is Blood Donor Index Page</h1>  
-
+}
+<h4>Blood Donor List</h4>
+<hr />
+<table>
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Contact Number</th>
+            <th>Date of Birth</th>
+            <th>Email</th>
+            <th>Blood Group</th>
+            <th>Weight</th>
+            <th>Address</th>
+            <th>Last Donation Date</th>
+            <th>Profile Picture</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var donor in Model)
+        {
+            <tr>
+                <td>@donor.Name</td>
+                <td>@donor.ContactNumber</td>
+                <td>@donor.DateOFBirth.ToShortDateString()</td>
+                <td>@donor.Email</td>
+                <td>@donor.BloodGroup.ToString()</td>
+                <td>@donor.Weight kg</td>
+                <td>@donor.Address</td>
+                <td>@donor.LastDonationDate?.ToShortDateString()</td>
+                <td><img src="@Url.Content($"~/images/{donor.ProfilePicture}")" alt="Profile Picture" style="width:50px;height:50px;" /></td>
+            </tr>
+        }
+    </tbody>
+</table>
