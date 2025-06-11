@@ -1,12 +1,37 @@
-﻿@model List<BloodDonor>
+﻿@model List<BloodDonorListViewModel>
 @{
-        ViewData["Title"] = "Blood Donor List";
+    ViewData["Title"] = "Blood Donor List";
 
 }
 <h2>Blood Donor List</h2>
 <hr />
-<table>
-    <thead>
+
+<form method="get" class="row g-2 mb-3">
+    <div class="col-md-3">
+        <select name="bloodGroup" class="form-select">
+    <option value="">All Blood Group </option>
+    @foreach (var bg in Enum.GetNames(typeof(BloodGroup)))
+            {
+                <option value="@bg">@bg</option>
+            }
+        </select>
+    </div> 
+    <div class="col-md-3">
+        <select name="isEligible" class="form-select">
+            <option value="">Eligibility Check</option>
+            <option value="true">Eligible</option>
+            <option value="false">Not Eligible</option>
+        </select>
+    </div>
+    <div class="col-md-3">
+        <input type="text" name="address" class="form-control" placeholder="Search By Address" />
+    </div>
+    <div class="col-md-3">
+        <input type="submit" class="btn btn-primary w-100"/>
+    </div>
+</form>
+<table class ="table table-hover">
+    <thead class="table-dark">
         <tr>
             <th>Picture</th>
             <th>Name</th>
@@ -16,6 +41,7 @@
             <th>Address</th>
             <th>Age</th>
             <th>Last Donation</th>
+            <th>Eligibility</th>
             <th>Action</th>
         </tr>
     </thead>
@@ -27,27 +53,37 @@
                     @* @if (!string.IsNullOrEmpty(donor.ProfilePicture) && System.IO.File.Exists(Server.MapPath($"~/images/{donor.ProfilePicture}"))) *@
                     @if (!string.IsNullOrEmpty(donor.ProfilePicture))
                     {
-                        <img src="@Url.Content($"~/images/{donor.ProfilePicture}")" alt="Profile Picture" style="width:50px;height:50px;" />
+                        <img src="~/@donor.ProfilePicture}" alt="Profile" width="60px" height="60px" style="object-fit:cover" class="rounded-circle" />
                     }
-                    else    
+                    else
                     {
-                        <img src="@Url.Content("~/images/default-profile.png")" alt="Default Profile Picture" style="width:50px;height:50px;" />
+                        @* <i class="fas fa-user-circle fa-3x text-black text-secondary"></i> *@
+                        <i class="fa-solid fa-circle-user text-black text-secondary"></i>
                     }
                 </td>
-            <tr>
-                <td><img src="@Url.Content($"~/images/{donor.ProfilePicture}")" alt="Profile Picture" style="width:50px;height:50px;" /></td>
                 <td>@donor.Name</td>
                 <td>@donor.BloodGroup.ToString()</td>
                 <td>@donor.ContactNumber</td>
                 <td>@donor.Email</td>
                 <td>@donor.Address</td>
-                <td>@(DateTime.Now.Year - donor.DateOFBirth.Year)</td> <!-- বয়স -->
-                <td>@donor.LastDonationDate?.ToShortDateString()</td>
+                <td>@donor.Age</td>
+                <td>@donor.LastDonationDate</td>
                 <td>
-                    <!-- এখানে Edit বা Delete বাটন দিতে পারেন -->
+                    @if (donor.isEligible)
+                    {
+                        <spna class="badge bg-success">Eligible</spna>
+                    }
+                    else
+                    {
+                        <span class="badge bg-danger">Not Eligible</span>
+                    }
+                </td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@donor.Id" class="btn btn-sm btn-info">View</a>
+                    <a asp-action="Edit" asp-route-id="@donor.Id" class="btn btn-sm btn-warning">Edit</a>
+                    <a asp-action="Delete" asp-route-id="@donor.Id" class="btn btn-sm btn-danger">Delete</a>
                 </td>
             </tr>
-            </tr>
-        }
+            }
     </tbody>
 </table>

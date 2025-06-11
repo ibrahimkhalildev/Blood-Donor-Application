@@ -1,6 +1,8 @@
 ﻿using BloodDonar.MVC.Data;
 using BloodDonar.MVC.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Data;
 
 namespace BloodDonar.MVC.Controllers
 {
@@ -14,11 +16,55 @@ namespace BloodDonar.MVC.Controllers
             _env = env;
         }
         //[Route("BloodDonor/[controller]")]
-        public IActionResult Index()
+        public IActionResult Index(string bloodGroup, string address, bool? isEligible)
         {
-            var donars = _context.BloodDonors.ToList();
-            return View(donars);
+            IQueryable<BloodDonor> query = _context.BloodDonors;
+
+            if (!string.IsNullOrEmpty(bloodGroup))
+                query = query.Where(d => d.bloodGroup.ToString() == bloodGroup);
+            if (!string.IsNullOrEmpty(address))
+                query = query.Where(d => d.Address != null && d.Address.Contains(address));
+
+            var donors = query.Select(d => new BloodDonorListViewModel
+            {
+                Id = d.Id,
+                Name = d.Name,
+                ContactNumber = d.ContactNumber,
+                Age = DateTime.Now.Year - d.DateOFBirth.Year, // Calculate age from DateOfBirth
+                Email = d.Email,
+                BloodGroup = d.BloodGroup.ToString(),
+                Address = d.Address,
+                LastDonationDate = d.LastDonationDate.HasValue ? $"{(DateTime.Today - d.LastDonationDate.Value).Days} Days ago" : "Never",
+                Weight = d.Weight,
+                ProfilePicture = d.ProfilePicture,
+                isEligible = (d.Weight > 45 && d.Weight < 200) && (!d.LastDonationDate.HasValue || (DateTime.Now - d.LastDonationDate.Value).TotalDays >= 90)
+            }).ToList();
+
+            if (isEligible.HasValue)
+            {
+                donors = donors.Where(X => X.isEligible == isEligible).ToList();
+            }
+
+            return View(donors);
         }
+        //public IActionResult Index(string bloodGroup, string address)
+        //{
+        //    IQueryable<BloodDonor> query = _context.BloodDonors;
+
+        //    if (!string.IsNullOrEmpty(bloodGroup) && Enum.TryParse<BloodGroup>(bloodGroup, out var parsedGroup))
+        //    {
+        //        query = query.Where(d => d.BloodGroup == parsedGroup);
+        //    }
+
+        //    if (!string.IsNullOrEmpty(address))
+        //    {
+        //        query = query.Where(d => EF.Functions.Like(d.Address, $"%{address}%"));
+        //    }
+
+        //    var donors = query.ToList();
+        //    return View(donors);
+        //}
+
         public IActionResult Create()
         {
             return View();
@@ -52,7 +98,7 @@ namespace BloodDonar.MVC.Controllers
                 {
                     await donor.ProfilePicture.CopyToAsync(stream);
                 }
-                donorEntity.ProfilePicture = $"/images/{fileName}"; // Set the path to the saved image
+                donorEntity.ProfilePicture = Path.Combine("profiles", fileName); // Set the path to the saved image
             }
             //if (donor.ProfilePicture != null && donor.ProfilePicture.Length > 0)
             //{
@@ -81,6 +127,29 @@ namespace BloodDonar.MVC.Controllers
                 return RedirectToAction("Index");
             }
             return View();
+        }
+        public IActionResult Details(int id)
+        {
+            var donor = _context.BloodDonors.Include(d => d.Donation).FirstOrDefault(d => d.Id == id);
+            if (donor == null)
+            {
+                return NotFound();
+            }
+            var donorViewModel = new BloodDonorListViewModel
+            {
+                Id = donor.Id,
+                Name = donor.Name,
+                ContactNumber = donor.ContactNumber,
+                Age = DateTime.Now.Year - donor.DateOFBirth.Year, // Calculate age from DateOfBirth
+                Email = donor.Email,
+                BloodGroup = donor.BloodGroup.ToString(),
+                Address = donor.Address,
+                LastDonationDate = donor.LastDonationDate.HasValue ? $"{(DateTime.Today - donor.LastDonationDate.Value).Days} Days ago" : "Never",
+                Weight = donor.Weight,
+                ProfilePicture = donor.ProfilePicture,
+                isEligible = (donor.Weight > 45 && donor.Weight < 200) && (!donor.LastDonationDate.HasValue || (DateTime.Now - donor.LastDonationDate.Value).TotalDays >= 90)
+            };
+            return View(donorViewModel);
         }
     }
 }

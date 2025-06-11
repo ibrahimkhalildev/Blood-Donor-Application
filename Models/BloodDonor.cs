@@ -7,6 +7,8 @@ namespace BloodDonar.MVC.Models
 {
     public class BloodDonor
     {
+        internal object bloodGroup;
+
         [Key]
         public int Id { get; set; }
         public required string Name { get; set; }
