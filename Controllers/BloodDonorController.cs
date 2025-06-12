@@ -219,7 +219,6 @@ namespace BloodDonar.MVC.Controllers
             }
             return RedirectToAction("Index");
         }
-
         public IActionResult Delete(int id)
         {
             var donor = _context.BloodDonors.Include(d => d.Donation).FirstOrDefault(d => d.Id == id);
@@ -256,6 +255,5 @@ namespace BloodDonar.MVC.Controllers
             _context.SaveChanges();
             return RedirectToAction("Index");
         }
-
     }
 }

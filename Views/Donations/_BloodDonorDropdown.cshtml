@@ -1,0 +1,7 @@
+﻿@model int
+<div class="form-group">
+    <label class="control-label">Donor</label>
+    <select asp-for="@Model" class="form-control" asp-items="ViewBag.donorList">
+        <option value="">Select Donor</option>
+    </select>
+</div>
