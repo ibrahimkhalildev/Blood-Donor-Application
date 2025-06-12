@@ -151,5 +151,111 @@ namespace BloodDonar.MVC.Controllers
             };
             return View(donorViewModel);
         }
+        public IActionResult Edit(int id)
+        {
+            var donor = _context.BloodDonors.FirstOrDefault(d => d.Id == id);
+            if (donor == null)
+            {
+                return NotFound();
+            }
+            var donorEditModel = new BloodDonorEditViewModel
+            {
+                Id = donor.Id,
+                Name = donor.Name,
+                ContactNumber = donor.ContactNumber,
+                DateOFBirth = donor.DateOFBirth,
+                Email = donor.Email,
+                BloodGroup = donor.BloodGroup,
+                Address = donor.Address,
+                LastDonationDate = donor.LastDonationDate,
+                ExistingProfilePicture = donor.ProfilePicture,
+            };
+            return View(donorEditModel);
+        }
+        [HttpPost]
+        public async Task<IActionResult > Edit(BloodDonorEditViewModel donor)
+        {
+            if (!ModelState.IsValid)
+                return View(donor);
+            var donorEntity = new BloodDonor
+            {
+                Name = donor.Name,
+                ContactNumber = donor.ContactNumber,
+                DateOFBirth = donor.DateOFBirth,
+                Email = donor.Email,
+                BloodGroup = donor.BloodGroup,
+                Weight = donor.Weight,
+                Address = donor.Address,
+                LastDonationDate = donor.LastDonationDate
+            };
+            if (donor.ProfilePicture != null && donor.ProfilePicture.Length > 0)
+            {
+                var fileName = $"{Guid.NewGuid()}{Path.GetExtension(donor.ProfilePicture.FileName)}";
+                var folderPath = Path.Combine(_env.WebRootPath, "profiles");
+                if (!Directory.Exists(folderPath))
+                {
+                    Directory.CreateDirectory(folderPath);
+                }
+                var fullPath = Path.Combine(folderPath, fileName);
+                using (var stream = new FileStream(fullPath, FileMode.Create))
+                {
+                    await donor.ProfilePicture.CopyToAsync(stream);
+                }
+                donorEntity.ProfilePicture = Path.Combine("profiles", fileName);
+            }
+            if (ModelState.IsValid)
+            {
+                //Check if the donor already exists in the database
+                var existingDonor = _context.BloodDonors.FirstOrDefault(d => d.ContactNumber == donor.ContactNumber);
+                if (existingDonor != null)
+                {
+                    // Donor already exists, return an error message or handle accordingly
+                    ModelState.AddModelError("", "Donor with this contact number already exists.");
+                    return View(donor);
+                }
+                //Add the new donor to the database
+                _context.BloodDonors.Add(donorEntity);
+                _context.SaveChanges();
+            }
+            return RedirectToAction("Index");
+        }
+
+        public IActionResult Delete(int id)
+        {
+            var donor = _context.BloodDonors.Include(d => d.Donation).FirstOrDefault(d => d.Id == id);
+            if (donor == null)
+            {
+                return NotFound();
+            }
+            var donorViewModel = new BloodDonorListViewModel
+            {
+                Id = donor.Id,
+                Name = donor.Name,
+                ContactNumber = donor.ContactNumber,
+                Age = DateTime.Now.Year - donor.DateOFBirth.Year, // Calculate age from DateOfBirth
+                Email = donor.Email,
+                BloodGroup = donor.BloodGroup.ToString(),
+                Address = donor.Address,
+                LastDonationDate = donor.LastDonationDate.HasValue ? $"{(DateTime.Today - donor.LastDonationDate.Value).Days} Days ago" : "Never",
+                Weight = donor.Weight,
+                ProfilePicture = donor.ProfilePicture,
+                isEligible = (donor.Weight > 45 && donor.Weight < 200) && (!donor.LastDonationDate.HasValue || (DateTime.Now - donor.LastDonationDate.Value).TotalDays >= 90)
+            };
+            return View(donorViewModel);
+        }
+        [HttpDelete]
+        [ActionName("DeleteConfirmed")]
+        public IActionResult DeleteConfirmed(int id)
+        {
+            var donor = _context.BloodDonors.Include(d => d.Donation).FirstOrDefault(d => d.Id == id);
+            if (donor == null)
+            {
+                return NotFound();
+            }
+            _context.BloodDonors.Remove(donor);
+            _context.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }

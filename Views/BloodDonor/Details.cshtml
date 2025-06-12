@@ -26,9 +26,8 @@
                     <p><strong>Address:</strong> @Model.Address</p>
                     <p><strong>Age:</strong> @Model.Age</p>
                     <p><strong>Last Donation:</strong> @Model.LastDonationDate</p>
-                    <p><strong>Eligibility:</strong> <span class="badge @(Model.isEligible ? "bg-success" : "bg-danger")">@(Model.isEligible? "Eligible" : "Not eligible")</span></p>
-
-
+                    <p><strong>Eligibility:</strong> <span class="badge @(Model.isEligible ? "bg-success" : "bg-danger")">@(Model.isEligible ? "Eligible" : "Not eligible")</span></p>
+                    
                     <a asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-warning">Edit</a>
                     <a asp-action="Index" class="btn btn-secondary">Back to List</a>
                 </div>
