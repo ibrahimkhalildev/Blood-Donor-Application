@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace BloodDonar.MVC.Migrations
 {
     [DbContext(typeof(BloodDonorDbContext))]
-    [Migration("20250524023103_DonationLocation")]
-    partial class DonationLocation
+    [Migration("20250611055317_BloodDonorDB")]
+    partial class BloodDonorDB
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -36,21 +36,21 @@ namespace BloodDonar.MVC.Migrations
                     b.Property<string>("Address")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("Bloodgroup")
+                    b.Property<int>("BloodGroup")
                         .HasColumnType("int");
 
                     b.Property<string>("ContactNumber")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("DateTime")
+                    b.Property<DateTime>("DateOFBirth")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("LastDonationDate")
+                    b.Property<DateTime?>("LastDonationDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
@@ -66,6 +66,34 @@ namespace BloodDonar.MVC.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("BloodDonors");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Address = "123 Main St, Dhaka",
+                            BloodGroup = 6,
+                            ContactNumber = "01932878112",
+                            DateOFBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "mahbuburrahman@example.com",
+                            LastDonationDate = new DateTime(2024, 11, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Mahbubur Rahman",
+                            ProfilePicture = "profiles/mahbubur.jpg",
+                            Weight = 70.5f
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Address = "9/A West Paikpara, Dhaka",
+                            BloodGroup = 6,
+                            ContactNumber = "01582878199",
+                            DateOFBirth = new DateTime(1990, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Email = "IbrahimKhalil@example.com",
+                            LastDonationDate = new DateTime(2023, 10, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
+                            Name = "Ibrahim Khalil",
+                            ProfilePicture = "profiles/ibrahim.jpg",
+                            Weight = 70.5f
+                        });
                 });
 
             modelBuilder.Entity("BloodDonar.MVC.Models.Donation", b =>
@@ -85,9 +113,15 @@ namespace BloodDonar.MVC.Migrations
                     b.Property<DateTime>("DonationDate")
                         .HasColumnType("datetime2");
 
+                    b.Property<string>("HospitalName")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
                     b.Property<string>("Location")
                         .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                        .HasMaxLength(100)
+                        .HasColumnType("nvarchar(100)");
 
                     b.HasKey("Id");
 
