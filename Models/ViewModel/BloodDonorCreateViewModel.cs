@@ -1,6 +1,7 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using BloodDonar.MVC.Models.Entities;
+using System.ComponentModel.DataAnnotations;
 
-namespace BloodDonar.MVC.Models
+namespace BloodDonar.MVC.Models.ViewModel
 {
     public class BloodDonorCreateViewModel
     {

@@ -1,4 +1,5 @@
-﻿@model BloodDonorCreateViewModel
+﻿@using BloodDonar.MVC.Models.ViewModel
+@model BloodDonorCreateViewModel
 
 @{
     ViewData["Title"] = "Add Donar";
@@ -33,7 +34,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="BloodGroup" class="control-label"></label>
-                <select asp-for="BloodGroup" class="form-control" asp-items="Html.GetEnumSelectList<BloodDonar.MVC.Models.BloodGroup>()"></select> 
+                <select asp-for="BloodGroup" class="form-control" asp-items="Html.GetEnumSelectList<BloodDonar.MVC.Models.Entities.BloodGroup>()"></select> 
                 <span asp-validation-for="BloodGroup" class="text-danger"></span>
             </div>
             <div class="form-group">

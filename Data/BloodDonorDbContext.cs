@@ -1,10 +1,12 @@
-﻿using BloodDonar.MVC.Models;
+﻿using BloodDonar.MVC.Models.Entities;
 using Microsoft.EntityFrameworkCore;
 
 namespace BloodDonar.MVC.Data
 {
     public class BloodDonorDbContext : DbContext
     {
+        internal object bloodDonor;
+
         public BloodDonorDbContext(DbContextOptions<BloodDonorDbContext> options) : base(options)
         {
         }

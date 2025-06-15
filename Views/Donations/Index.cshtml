@@ -1,53 +1,54 @@
-﻿@model IEnumerable<BloodDonar.MVC.Models.Donation>
+﻿@* @model BloodDonar.MVC.Models.Entities.Donation *@
+@model IEnumerable<BloodDonar.MVC.Models.Entities.Donation>  
 
-@{
-    ViewData["Title"] = "Index";
-}
+@{  
+    ViewData["Title"] = "Index";  
+}  
 
-<h1>Index</h1>
+<h1>Index</h1>  
 
-<p>
-    <a asp-action="Create">Create New</a>
-</p>
-<table class="table">
-    <thead>
-        <tr>
-            <th>
-                @Html.DisplayNameFor(model => model.DonationDate)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.HospitalName)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.Location)
-            </th>
-            <th>
-                @Html.DisplayNameFor(model => model.BloodDonationId)
-            </th>
-            <th></th>
-        </tr>
-    </thead>
-    <tbody>
-@foreach (var item in Model) {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.DonationDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.HospitalName)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Location)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.BloodDonationId)
-            </td>
-            <td>
-                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
-            </td>
-        </tr>
-}
-    </tbody>
+<p>  
+    <a asp-action="Create">Create New</a>  
+</p>  
+<table class="table">  
+    <thead>  
+        <tr>  
+            <th>  
+                @Html.DisplayNameFor(model => model.DonationDate)  
+            </th>  
+            <th>  
+                @Html.DisplayNameFor(model => model.HospitalName)  
+            </th>  
+            <th>  
+                @Html.DisplayNameFor(model => model.Location)  
+            </th>  
+            <th>  
+                @Html.DisplayNameFor(model => model.BloodDonationId)  
+            </th>  
+            <th></th>  
+        </tr>  
+    </thead>  
+    <tbody>  
+@foreach (var item in Model) {  
+        <tr>  
+            <td>  
+                @Html.DisplayFor(modelItem => item.DonationDate)  
+            </td>  
+            <td>  
+                @Html.DisplayFor(modelItem => item.HospitalName)  
+            </td>  
+            <td>  
+                @Html.DisplayFor(modelItem => item.Location)  
+            </td>  
+            <td>  
+                @Html.DisplayFor(modelItem => item.BloodDonationId)  
+            </td>  
+            <td>  
+                <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |  
+                <a asp-action="Details" asp-route-id="@item.Id">Details</a> |  
+                <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>  
+            </td>  
+        </tr>  
+}  
+    </tbody>  
 </table>

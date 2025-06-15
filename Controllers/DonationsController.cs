@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using BloodDonar.MVC.Data;
-using BloodDonar.MVC.Models;
+using BloodDonar.MVC.Models.Entities;
 
 namespace BloodDonar.MVC.Controllers
 {
