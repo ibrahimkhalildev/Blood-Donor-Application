@@ -178,15 +178,9 @@ namespace BloodDonar.MVC.Controllers
         }
         [HttpDelete]
         [ActionName("DeleteConfirmed")]
-        public IActionResult DeleteConfirmed(int id)
+        public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var donor = _context.BloodDonors.Include(d => d.Donation).FirstOrDefault(d => d.Id == id);
-            if (donor == null)
-            {
-                return NotFound();
-            }
-            _context.BloodDonors.Remove(donor);
-            _context.SaveChanges();
+            await _bloodDonorService.DeleteAsync(id);
             return RedirectToAction("Index");
         }
     }

@@ -5,12 +5,10 @@ using System.Runtime.CompilerServices;
 
 namespace BloodDonar.MVC.Models.Entities
 {
-    public class BloodDonor
+    public class BloodDonor : BaseEntity
     {
         internal object bloodGroup;
 
-        [Key]
-        public int Id { get; set; }
         public required string Name { get; set; }
         [Phone, Length(10,50)] 
         public required string ContactNumber { get; set; }

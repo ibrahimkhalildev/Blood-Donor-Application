@@ -3,6 +3,8 @@ using BloodDonar.MVC.Services.Interfaces;
 using BloodDonar.MVC.Services.Implementations;
 using BloodDonar.MVC.Repusitories.Implementations;
 using Microsoft.EntityFrameworkCore;
+using BloodDonar.MVC.Data.UnitOfWork;
+using BloodDonar.MVC.Repusitories.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,6 +17,8 @@ builder.Services.AddScoped<IBloodDonorRepository, BloodDonorRepository>();
 //builder.Services.AddScoped<IBloodDonorService, BloodDonorService>(); // Where is the problem here?
 builder.Services.AddScoped<BloodDonar.MVC.Services.Interfaces.IBloodDonorService, BloodDonar.MVC.Services.Implementations.BloodDonorService>();
 builder.Services.AddTransient<IFileService, FileService>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IDonationRepository, BloodDonar.MVC.Repusitories.Implementations.DonationRepository>();
 
 var app = builder.Build();
 

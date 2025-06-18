@@ -7,6 +7,6 @@ namespace BloodDonar.MVC.Data.UnitOfWork
     {
         IBloodDonorRepository BloodDonorRepository { get; }
         IDonationRepository DonationRepository { get; }
-        Task<int> SaveChangesAsync();
+        Task<int> SaveAsync();
     }
 }
