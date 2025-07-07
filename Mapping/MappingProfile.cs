@@ -8,7 +8,7 @@ namespace BloodDonar.MVC.Mapping
     {
         public MappingProfile()
         {
-            CreateMap<BloodDonorListViewModel, >;
+            CreateMap<BloodDonorListViewModel, BloodDonor>();
         }
     }
 }

@@ -21,7 +21,8 @@ builder.Services.AddScoped<BloodDonar.MVC.Services.Interfaces.IBloodDonorService
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDonationRepository, BloodDonar.MVC.Repusitories.Implementations.DonationRepository>();
-builder.Services.AddAutoMapper(typeof(MappingProfile)); 
+//Auto Mapper Registration
+builder.Services.AddAutoMapper(typeof(MappingProfile));
 
 
 
