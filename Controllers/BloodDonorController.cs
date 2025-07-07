@@ -29,7 +29,6 @@ namespace BloodDonar.MVC.Controllers
         {
             var filter = new FilterDonorModel { bloodGroup = bloodGroup, address = address, isEligible = isEligible };
             var donors = await _bloodDonorService.GetFilteredBloodDonorAsync(filter);
-
             return View(donors);
         }
         //public IActionResult Index(string bloodGroup, string address)

@@ -32,7 +32,6 @@ namespace BloodDonar.MVC.Services.Implementations
             }
         }
 
-
         public Task<IEnumerable<BloodDonor>> GetAllAsync()
         {
             throw new NotImplementedException();
@@ -45,12 +44,13 @@ namespace BloodDonar.MVC.Services.Implementations
 
         public async Task<IList<BloodDonorListViewModel>> GetFilteredBloodDonorAsync(FilterDonorModel filter)
         {
-            var query = await _unitOfWork.BloodDonorRepository.GetAllAsync();
+            //var query = await _unitOfWork.BloodDonorRepository.GetAllAsync();
+            var query = (await _unitOfWork.BloodDonorRepository.GetAllAsync()).AsEnumerable();
 
             if (!string.IsNullOrEmpty(filter.bloodGroup))
-                query = query.Where(d => d.bloodGroup.ToString() == filter.bloodGroup);
+                query = (List<BloodDonor>)query.Where(predicate: d => d.bloodGroup.ToString() == filter.bloodGroup);
             if (!string.IsNullOrEmpty(filter.address))
-                query = query.Where(d => d.Address != null && d.Address.Contains(filter.address));
+                query = (List<BloodDonor>)query.Where(d => d.Address != null && d.Address.Contains(filter.address));
 
             var donors = query.Select(d => new BloodDonorListViewModel
             {

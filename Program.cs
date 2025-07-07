@@ -1,10 +1,12 @@
 using BloodDonar.MVC.Data;
-using BloodDonar.MVC.Services.Interfaces;
-using BloodDonar.MVC.Services.Implementations;
-using BloodDonar.MVC.Repusitories.Implementations;
-using Microsoft.EntityFrameworkCore;
 using BloodDonar.MVC.Data.UnitOfWork;
+using BloodDonar.MVC.Mapping;
+using BloodDonar.MVC.Repusitories.Implementations;
 using BloodDonar.MVC.Repusitories.Interfaces;
+using BloodDonar.MVC.Services.Implementations;
+using BloodDonar.MVC.Services.Interfaces;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.DependencyInjection;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +21,9 @@ builder.Services.AddScoped<BloodDonar.MVC.Services.Interfaces.IBloodDonorService
 builder.Services.AddTransient<IFileService, FileService>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IDonationRepository, BloodDonar.MVC.Repusitories.Implementations.DonationRepository>();
+builder.Services.AddAutoMapper(typeof(MappingProfile)); 
+
+
 
 var app = builder.Build();
 

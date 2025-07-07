@@ -33,6 +33,11 @@ namespace BloodDonar.MVC.Repusitories.Implementations
             return  await _dbSet.FindAsync(id);
         }
 
+        public IQueryable<T> Query()
+        {
+            throw new NotImplementedException();
+        }
+
         public void Update(T entity)
         {
             throw new NotImplementedException();

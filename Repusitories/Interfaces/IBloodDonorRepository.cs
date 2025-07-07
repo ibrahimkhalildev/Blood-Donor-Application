@@ -5,7 +5,7 @@ using System.Linq.Expressions;
 
 namespace BloodDonar.MVC.Repusitories.Implementations
 {
-    public interface IBloodDonorRepository : IRepository<BloodDonorEntity>
+    public interface IBloodDonorRepository : IRepository<BloodDonor>
     {
     }
 }

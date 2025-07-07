@@ -7,7 +7,7 @@ namespace BloodDonar.MVC.Models.Entities
 {
     public class BloodDonor : BaseEntity
     {
-        internal object bloodGroup;
+        internal object? bloodGroup;
 
         public required string Name { get; set; }
         [Phone, Length(10,50)] 
@@ -27,3 +27,4 @@ namespace BloodDonar.MVC.Models.Entities
         public Collection<Donation> Donation { get; set; } = new Collection<Donation>();
     }
 }
+

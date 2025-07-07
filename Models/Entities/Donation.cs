@@ -12,5 +12,6 @@ namespace BloodDonar.MVC.Models.Entities
         public required string Location { get; set; }
         [ForeignKey("BloodDonor")]
         public required int BloodDonationId { get; set; }
+        public object BloodGroup { get; internal set; }
     }
 }
