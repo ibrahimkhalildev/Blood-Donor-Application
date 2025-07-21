@@ -61,7 +61,7 @@ namespace BloodDonar.MVC.Services.Implementations
                 Email = d.Email,
                 BloodGroup = d.BloodGroup.ToString(),
                 Address = d.Address,
-                LastDonationDate = DateHelper.GetDays(d.LastDonationDate),
+                LastDonationDate = DateHelper.GetLastDonationDateString(d.LastDonationDate),
                 Weight = d.Weight,
                 ProfilePicture = d.ProfilePicture,
                 isEligible = (d.Weight > 45 && d.Weight < 200) && (!d.LastDonationDate.HasValue || (DateTime.Now - d.LastDonationDate.Value).TotalDays >= 90)
@@ -77,6 +77,19 @@ namespace BloodDonar.MVC.Services.Implementations
         public Task UpdateAsync(BloodDonor bloodDonor)
         {
             throw new NotImplementedException();
+        }
+
+        public static bool IsEligible(BloodDonor bloodDonar)
+        {
+            if (bloodDonar.Weight < 45 || bloodDonar.Weight > 200)
+                return false;
+            if (bloodDonar.LastDonationDate.HasValue)
+            {
+                var daysSinceLastDonation = (DateTime.Now - bloodDonar.LastDonationDate.Value).TotalDays;
+                if (daysSinceLastDonation < 90)
+                    return false;
+            }
+            return true;
         }
     }
 }

@@ -11,7 +11,7 @@ namespace BloodDonar.MVC.Repusitories.Implementations
 
         public Repository(BloodDonorDbContext context)
         {
-            _dbSet = context.Set<T>();
+           _dbSet = context.Set<T>();
         }
         public void Add(T entity)
         {

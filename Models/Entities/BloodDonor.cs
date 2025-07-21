@@ -14,6 +14,7 @@ namespace BloodDonar.MVC.Models.Entities
         public required string ContactNumber { get; set; }
         [Display(Name="Date of Birth")]
         public required DateTime DateOFBirth { get; set; }
+        public object DateOfBirth { get; internal set; }
         [EmailAddress]
         public required string Email { get; set; }
         public required BloodGroup BloodGroup { get; set; }
